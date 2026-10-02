@@ -231,7 +231,16 @@
     background: #fff; box-shadow: 0 10px 26px rgba(58, 57, 47, .22); rotate: -3deg;
   }
   .polaroid.derecha { rotate: 2.5deg; }
-  .polaroid > * { display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: cover; }
+  .polaroid .marco { display: block; width: 100%; aspect-ratio: 1 / 1; overflow: hidden; }
+  .polaroid .marco > * { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .polaroid figcaption { position: absolute; left: 0; right: 0; bottom: 4px; font-family: var(--script); font-size: 26px; line-height: 1; color: var(--sage-deep); }
+  .polaroid { position: relative; }
+  /* Los dos de chicos, uno al lado del otro */
+  .de-chicos { display: flex; justify-content: center; margin: 26px 0 30px; }
+  .de-chicos .polaroid { width: 50%; max-width: 210px; margin: 0; padding: 8px 8px 38px; }
+  .de-chicos .polaroid + .polaroid { margin-left: -10px; margin-top: 18px; }
+  .de-chicos .marco { aspect-ratio: 4 / 5; }
+  .de-chicos .vacia { font-size: 10px; letter-spacing: .16em; padding: 0 6px; }
   .polaroid .vacia {
     display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
     background: linear-gradient(160deg, #e6dfcf, #cfd5c2);
@@ -356,8 +365,11 @@
 
   <!-- ================= ANTES ================= -->
   <section id="antes" class="suave antes-ahora">
-    <p class="rotulo aparece">Hace casi 20 años</p>
-    <figure class="polaroid aparece" id="foto-antes"></figure>
+    <p class="rotulo aparece">Había una vez…</p>
+    <div class="de-chicos aparece">
+      <figure class="polaroid" id="foto-el"></figure>
+      <figure class="polaroid derecha" id="foto-ella"></figure>
+    </div>
     <h2 class="aparece">Estos chicos<br>hoy se casan</h2>
   </section>
 
@@ -460,7 +472,7 @@
 
   <!-- ================= AHORA ================= -->
   <section id="ahora" class="antes-ahora">
-    <p class="rotulo aparece">Casi 20 años después</p>
+    <p class="rotulo aparece">Casi 20 años juntos</p>
     <figure class="polaroid derecha aparece" id="foto-ahora"></figure>
     <h2 class="aparece">Y se siguen eligiendo</h2>
   </section>
@@ -529,9 +541,11 @@ const DATOS = {
     ] }
   ],
 
-  // Foto de cuando empezaron (al inicio) y una actual (al final), ej: "fotos/antes.jpg"
-  fotoAntes: "",
-  fotoAhora: "",
+  // Fotos de ellos de chicos (al inicio) y una actual (al final). Vacío = se ve el espacio de muestra.
+  // "encuadre" corre la foto dentro del marco (posición horizontal y vertical) y "zoom" la agranda.
+  fotoEl:    { archivo: "fotos/eze-nene.jpeg", nombre: "Eze",  encuadre: "50% 12%", zoom: 1 },
+  fotoElla:  { archivo: "",                    nombre: "Debo", encuadre: "50% 50%", zoom: 1 },
+  fotoAhora: { archivo: "fotos/foto-1.png",    nombre: "",     encuadre: "50% 50%", zoom: 1.34 },
 
   // Fotos de los novios, ej: ["fotos/1.jpg", "fotos/2.jpg"]. Vacío = se ven los espacios de muestra.
   fotos: [],
@@ -618,11 +632,13 @@ if (DATOS.fotos.length) {
     `<figure class="vacia">${camara}<span>Foto ${n}</span></figure>`).join("");
 }
 const polaroid = (id, foto, alt, rotulo) => {
-  $(id).innerHTML = foto
-    ? `<img src="${foto}" alt="${alt}" loading="lazy">`
+  const imagen = foto.archivo
+    ? `<img src="${foto.archivo}" alt="${alt}" loading="lazy" style="object-position:${foto.encuadre}; scale:${foto.zoom}">`
     : `<div class="vacia">${camara}<span>${rotulo}</span></div>`;
+  $(id).innerHTML = `<div class="marco">${imagen}</div>` + (foto.nombre ? `<figcaption>${foto.nombre}</figcaption>` : "");
 };
-polaroid("foto-antes", DATOS.fotoAntes, "Ezequiel y Débora cuando empezaron", "Foto de antes");
+polaroid("foto-el", DATOS.fotoEl, "Ezequiel de chico", "Foto de él");
+polaroid("foto-ella", DATOS.fotoElla, "Débora de chica", "Foto de ella");
 polaroid("foto-ahora", DATOS.fotoAhora, "Ezequiel y Débora hoy", "Foto de ahora");
 const pasoFoto = () => carrusel.firstElementChild.getBoundingClientRect().width + 14;
 $("foto-ant").addEventListener("click", () => carrusel.scrollBy({ left: -pasoFoto(), behavior: "smooth" }));
