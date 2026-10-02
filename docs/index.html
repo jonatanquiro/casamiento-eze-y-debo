@@ -574,7 +574,18 @@ if (DATOS.musica) {
   musica.src = DATOS.musica;
   musica.addEventListener("error", () => btnMusica.classList.remove("visible"));
 }
+function pantallaCompleta() {
+  // En iPhone el navegador no lo permite: ahí la tarjeta se abre normal.
+  const raiz = document.documentElement;
+  const pedir = raiz.requestFullscreen || raiz.webkitRequestFullscreen;
+  if (!pedir) return;
+  try {
+    const r = pedir.call(raiz);
+    if (r && r.catch) r.catch(() => {});
+  } catch {}
+}
 $("btn-abrir").addEventListener("click", () => {
+  pantallaCompleta();
   $("portada").classList.add("abierta");
   document.body.classList.remove("cerrada");
   if (DATOS.musica) {
