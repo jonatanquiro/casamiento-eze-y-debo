@@ -225,6 +225,21 @@
   }
   .flechas button:hover, .flechas button:focus-visible { background: var(--gold); color: #fff; }
 
+  /* ---------- Antes y ahora ---------- */
+  .polaroid {
+    width: min(270px, 78%); margin: 22px auto 26px; padding: 12px 12px 46px;
+    background: #fff; box-shadow: 0 10px 26px rgba(58, 57, 47, .22); rotate: -3deg;
+  }
+  .polaroid.derecha { rotate: 2.5deg; }
+  .polaroid > * { display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: cover; }
+  .polaroid .vacia {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+    background: linear-gradient(160deg, #e6dfcf, #cfd5c2);
+    color: var(--sage); font-family: var(--sans); font-size: 12px; letter-spacing: .2em; text-transform: uppercase;
+  }
+  .polaroid .vacia svg { width: 34px; height: 34px; }
+  .antes-ahora h2 { margin-bottom: 0; }
+
   /* ---------- Regalo ---------- */
   .qr {
     width: 200px; height: 200px; margin: 26px auto 10px; padding: 12px;
@@ -339,6 +354,13 @@
     </div>
   </section>
 
+  <!-- ================= ANTES ================= -->
+  <section id="antes" class="suave antes-ahora">
+    <p class="rotulo aparece">Hace casi 20 años</p>
+    <figure class="polaroid aparece" id="foto-antes"></figure>
+    <h2 class="aparece">Estos chicos<br>hoy se casan</h2>
+  </section>
+
   <!-- ================= TEXTO ================= -->
   <section id="frase" class="oscura">
     <svg class="rama aparece" style="margin-bottom:26px"><use href="#ramita"/></svg>
@@ -436,6 +458,13 @@
     </div>
   </section>
 
+  <!-- ================= AHORA ================= -->
+  <section id="ahora" class="antes-ahora">
+    <p class="rotulo aparece">Casi 20 años después</p>
+    <figure class="polaroid derecha aparece" id="foto-ahora"></figure>
+    <h2 class="aparece">Y se siguen eligiendo</h2>
+  </section>
+
   <!-- ================= CONFIRMACIÓN ================= -->
   <section id="confirmar" class="oscura">
     <svg class="rama aparece" style="margin-bottom:22px"><use href="#ramita"/></svg>
@@ -499,6 +528,10 @@ const DATOS = {
       "Fiambres"
     ] }
   ],
+
+  // Foto de cuando empezaron (al inicio) y una actual (al final), ej: "fotos/antes.jpg"
+  fotoAntes: "",
+  fotoAhora: "",
 
   // Fotos de los novios, ej: ["fotos/1.jpg", "fotos/2.jpg"]. Vacío = se ven los espacios de muestra.
   fotos: [],
@@ -584,6 +617,13 @@ if (DATOS.fotos.length) {
   carrusel.innerHTML = [1, 2, 3, 4].map((n) =>
     `<figure class="vacia">${camara}<span>Foto ${n}</span></figure>`).join("");
 }
+const polaroid = (id, foto, alt, rotulo) => {
+  $(id).innerHTML = foto
+    ? `<img src="${foto}" alt="${alt}" loading="lazy">`
+    : `<div class="vacia">${camara}<span>${rotulo}</span></div>`;
+};
+polaroid("foto-antes", DATOS.fotoAntes, "Ezequiel y Débora cuando empezaron", "Foto de antes");
+polaroid("foto-ahora", DATOS.fotoAhora, "Ezequiel y Débora hoy", "Foto de ahora");
 const pasoFoto = () => carrusel.firstElementChild.getBoundingClientRect().width + 14;
 $("foto-ant").addEventListener("click", () => carrusel.scrollBy({ left: -pasoFoto(), behavior: "smooth" }));
 $("foto-sig").addEventListener("click", () => carrusel.scrollBy({ left: pasoFoto(), behavior: "smooth" }));
