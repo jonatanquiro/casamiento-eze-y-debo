@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ezequiel & Débora · Nos casamos</title>
+<meta name="description" content="Te invitamos a nuestro casamiento · 20 de diciembre de 2026">
+<meta property="og:title" content="Ezequiel & Débora · ¡Nos casamos!">
+<meta property="og:description" content="20 de diciembre de 2026 · Club Unidad Sancristobalense">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Pinyon+Script&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f7f3ea;
+    --paper-2: #efe8da;
+    --ink: #3a392f;
+    --ink-soft: #6b6a5c;
+    --sage: #7c8b6a;
+    --sage-deep: #3d4a37;
+    --gold: #b08d57;
+    --gold-soft: #d8c39b;
+    --line: rgba(176, 141, 87, .45);
+    --serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+    --script: "Pinyon Script", "Snell Roundhand", "Brush Script MT", cursive;
+    --sans: "Jost", "Segoe UI", system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: #2b3327;
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 20px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  body.cerrada { overflow: hidden; }
+
+  /* La tarjeta es una columna angosta, como en el celular */
+  .tarjeta {
+    max-width: 520px;
+    margin: 0 auto;
+    background: var(--paper);
+    box-shadow: 0 0 60px rgba(0, 0, 0, .35);
+    overflow: hidden;
+  }
+
+  section { padding: 64px 28px; text-align: center; position: relative; }
+  .oscura { background: var(--sage-deep); color: var(--paper); }
+  .suave { background: var(--paper-2); }
+
+  .rotulo {
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: .32em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .oscura .rotulo { color: var(--gold-soft); }
+  h2 {
+    font-family: var(--script);
+    font-weight: 400;
+    font-size: 46px;
+    line-height: 1.1;
+    margin: 6px 0 22px;
+    color: var(--sage-deep);
+  }
+  .oscura h2 { color: var(--paper); }
+  p { text-wrap: pretty; }
+  .chico { font-size: 17px; color: var(--ink-soft); }
+  .oscura .chico { color: rgba(247, 243, 234, .75); }
+
+  .rama { display: block; width: 190px; height: 38px; margin: 0 auto; color: var(--sage); }
+  .oscura .rama { color: var(--gold-soft); }
+  .rama.abajo { transform: scaleY(-1); }
+
+  .boton {
+    display: inline-block;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--sage-deep);
+    background: transparent;
+    border: 1px solid var(--gold);
+    border-radius: 999px;
+    padding: 13px 26px;
+    cursor: pointer;
+    transition: background .25s, color .25s;
+  }
+  .boton:hover, .boton:focus-visible { background: var(--gold); color: #fff; }
+  .boton:focus-visible { outline: 2px solid var(--sage-deep); outline-offset: 3px; }
+  .oscura .boton { color: var(--paper); border-color: var(--gold-soft); }
+  .oscura .boton:hover, .oscura .boton:focus-visible { background: var(--gold-soft); color: var(--sage-deep); }
+  .boton.lleno { background: var(--sage-deep); border-color: var(--sage-deep); color: var(--paper); }
+  .boton.lleno:hover, .boton.lleno:focus-visible { background: var(--gold); border-color: var(--gold); }
+  .botones { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 24px; }
+
+  /* ---------- Portada (sobre cerrado) ---------- */
+  #portada {
+    position: fixed; inset: 0; z-index: 50;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 28px; text-align: center;
+    color: var(--paper);
+    background:
+      radial-gradient(ellipse at 50% 20%, rgba(216, 195, 155, .22), transparent 60%),
+      linear-gradient(170deg, #46553f 0%, #2f3a2b 60%, #242c21 100%);
+    transition: opacity .9s ease, visibility .9s ease, transform .9s ease;
+  }
+  #portada.abierta { opacity: 0; visibility: hidden; transform: translateY(-4%); }
+  #portada .marco {
+    border: 1px solid rgba(216, 195, 155, .5);
+    padding: 44px 26px 38px;
+    width: min(100%, 400px);
+    position: relative;
+  }
+  #portada .marco::before {
+    content: ""; position: absolute; inset: 7px;
+    border: 1px solid rgba(216, 195, 155, .22);
+    pointer-events: none;
+  }
+  #portada .rama { color: var(--gold-soft); }
+  #portada .nombres { font-family: var(--script); font-size: 58px; line-height: 1.05; margin: 14px 0 6px; }
+  #portada .nombres span { display: block; font-size: 34px; color: var(--gold-soft); margin: 2px 0; }
+  #portada .aviso { font-size: 16px; font-style: italic; color: rgba(247, 243, 234, .8); margin: 26px 0 18px; }
+  #portada .boton { color: var(--paper); border-color: var(--gold-soft); }
+  #portada .boton:hover, #portada .boton:focus-visible { background: var(--gold-soft); color: var(--sage-deep); }
+
+  /* ---------- Encabezado ---------- */
+  #inicio {
+    padding: 84px 28px 72px;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(124, 139, 106, .20), transparent 65%),
+      var(--paper);
+  }
+  #inicio .nombres { font-family: var(--script); font-size: 72px; line-height: 1; color: var(--sage-deep); margin: 22px 0 8px; }
+  #inicio .nombres span { display: block; font-size: 40px; color: var(--gold); margin: 6px 0; }
+  #inicio .apellidos { font-family: var(--sans); font-size: 12px; letter-spacing: .3em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 26px; }
+  #inicio .con-hijos { font-style: italic; font-size: 21px; color: var(--ink-soft); margin-top: 20px; }
+  #inicio .fecha-grande {
+    display: inline-flex; align-items: center; gap: 16px;
+    font-family: var(--sans); font-weight: 300; letter-spacing: .14em; text-transform: uppercase; font-size: 14px;
+    margin-top: 26px;
+  }
+  #inicio .fecha-grande b {
+    font-family: var(--serif); font-weight: 500; font-size: 54px; letter-spacing: 0; line-height: 1;
+    padding: 0 16px; border-left: 1px solid var(--line); border-right: 1px solid var(--line);
+    color: var(--sage-deep);
+  }
+
+  /* ---------- Texto ---------- */
+  #frase p { font-size: 23px; font-style: italic; max-width: 380px; margin: 0 auto 16px; }
+  #frase .cancion { margin-top: 30px; font-style: normal; font-size: 16px; font-family: var(--sans); font-weight: 300; letter-spacing: .04em; color: rgba(247, 243, 234, .8); }
+  #frase .cancion em { font-family: var(--serif); font-size: 21px; color: var(--gold-soft); }
+
+  /* ---------- Fecha / hora / lugar ---------- */
+  .datos { display: grid; grid-template-columns: 1fr 1fr; gap: 0; max-width: 380px; margin: 0 auto 30px; }
+  .datos div { padding: 6px 10px; }
+  .datos div + div { border-left: 1px solid var(--line); }
+  .datos strong { display: block; font-weight: 500; font-size: 30px; color: var(--sage-deep); margin-top: 4px; }
+  .lugar-nombre { font-size: 30px; font-weight: 500; color: var(--sage-deep); line-height: 1.2; margin-top: 4px; }
+
+  /* ---------- Cuenta regresiva ---------- */
+  .cuenta { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; max-width: 400px; margin: 0 auto; }
+  .cuenta div { border: 1px solid rgba(216, 195, 155, .45); border-radius: 4px; padding: 16px 4px 12px; }
+  .cuenta b { display: block; font-weight: 500; font-size: 40px; line-height: 1; font-variant-numeric: tabular-nums; }
+  .cuenta span { font-family: var(--sans); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--gold-soft); }
+  #cuenta-fin { font-size: 26px; font-style: italic; }
+
+  /* ---------- Itinerario ---------- */
+  .itinerario { list-style: none; max-width: 340px; margin: 0 auto; text-align: left; position: relative; }
+  .itinerario::before { content: ""; position: absolute; left: 82px; top: 10px; bottom: 10px; width: 1px; background: var(--line); }
+  .itinerario li { display: grid; grid-template-columns: 66px 1fr; gap: 34px; padding: 12px 0; position: relative; }
+  .itinerario li::before {
+    content: ""; position: absolute; left: 77px; top: 23px;
+    width: 11px; height: 11px; border-radius: 50%;
+    background: var(--paper); border: 1px solid var(--gold);
+  }
+  .itinerario time { font-family: var(--sans); font-size: 15px; letter-spacing: .08em; color: var(--gold); text-align: right; padding-top: 5px; }
+  .itinerario b { font-weight: 500; font-size: 23px; color: var(--sage-deep); display: block; line-height: 1.2; }
+  .itinerario small { font-size: 16px; color: var(--ink-soft); }
+
+  /* ---------- Fotos ---------- */
+  #fotos { padding-left: 0; padding-right: 0; }
+  .carrusel {
+    display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory;
+    padding: 4px 28px 18px; scrollbar-width: none;
+  }
+  .carrusel::-webkit-scrollbar { display: none; }
+  .carrusel figure {
+    flex: 0 0 74%; aspect-ratio: 4 / 5; scroll-snap-align: center;
+    border-radius: 4px; overflow: hidden; background: #dcd6c6;
+    border: 6px solid #fff; box-shadow: 0 6px 18px rgba(58, 57, 47, .16);
+  }
+  .carrusel img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .carrusel .vacia {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+    background: linear-gradient(160deg, #e6dfcf, #cfd5c2);
+    color: var(--sage); font-family: var(--sans); font-size: 12px; letter-spacing: .2em; text-transform: uppercase;
+  }
+  .carrusel .vacia svg { width: 34px; height: 34px; }
+  .flechas { display: flex; gap: 12px; justify-content: center; margin-top: 6px; }
+  .flechas button {
+    width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--gold);
+    background: transparent; color: var(--sage-deep); font-size: 20px; cursor: pointer; font-family: var(--serif);
+  }
+  .flechas button:hover, .flechas button:focus-visible { background: var(--gold); color: #fff; }
+
+  /* ---------- Regalo ---------- */
+  .qr {
+    width: 200px; height: 200px; margin: 26px auto 10px; padding: 12px;
+    background: #fff; border-radius: 6px; box-shadow: 0 6px 18px rgba(58, 57, 47, .14);
+  }
+  .qr svg, .qr img { width: 100%; height: 100%; display: block; }
+  .alias {
+    display: inline-flex; align-items: center; gap: 12px; margin-top: 16px;
+    background: #fff; border: 1px dashed var(--gold); border-radius: 6px; padding: 10px 14px 10px 18px;
+    font-family: var(--sans); font-size: 16px; letter-spacing: .06em;
+  }
+  .alias button {
+    font-family: var(--sans); font-size: 11px; letter-spacing: .16em; text-transform: uppercase;
+    background: var(--sage-deep); color: var(--paper); border: 0; border-radius: 999px; padding: 8px 14px; cursor: pointer;
+  }
+
+  /* ---------- Confirmación ---------- */
+  .valor { margin-top: 26px; }
+  .valor summary {
+    list-style: none; cursor: pointer; display: inline-block;
+    font-family: var(--sans); font-size: 13px; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--gold-soft); border-bottom: 1px solid currentColor; padding-bottom: 3px;
+  }
+  .valor summary::-webkit-details-marker { display: none; }
+  .valor .monto { font-size: 44px; font-weight: 500; margin-top: 16px; line-height: 1; }
+
+  footer { background: #242c21; color: rgba(247, 243, 234, .7); text-align: center; padding: 46px 28px 54px; }
+  footer .nombres { font-family: var(--script); font-size: 40px; color: var(--paper); line-height: 1.1; }
+  footer p:not(.nombres) { font-family: var(--sans); font-size: 12px; letter-spacing: .28em; text-transform: uppercase; margin-top: 8px; }
+
+  /* ---------- Botón de música ---------- */
+  #btn-musica {
+    position: fixed; right: 16px; bottom: 16px; z-index: 40;
+    width: 48px; height: 48px; border-radius: 50%;
+    border: 1px solid var(--gold-soft); background: var(--sage-deep); color: var(--paper);
+    display: none; align-items: center; justify-content: center; cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, .3);
+  }
+  #btn-musica.visible { display: flex; }
+  #btn-musica svg { width: 20px; height: 20px; }
+  #btn-musica.pausada { opacity: .6; }
+  #btn-musica.pausada .ondas { display: none; }
+
+  /* ---------- Aparición al hacer scroll ---------- */
+  .js .aparece { opacity: 0; transform: translateY(18px); transition: opacity .9s ease, transform .9s ease; }
+  .js .aparece.visible { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .js .aparece { opacity: 1; transform: none; transition: none; }
+    #portada { transition: none; }
+  }
+
+  @media (max-width: 380px) {
+    body { font-size: 18px; }
+    section { padding: 54px 20px; }
+    #inicio .nombres { font-size: 60px; }
+    #portada .nombres { font-size: 48px; }
+    h2 { font-size: 40px; }
+    .cuenta b { font-size: 32px; }
+  }
+</style>
+</head>
+<body class="cerrada">
+
+<!-- Dibujo de la ramita, se reutiliza en toda la tarjeta -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="ramita" viewBox="0 0 200 40">
+    <g fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round">
+      <path d="M12 26 Q100 6 188 26"/>
+    </g>
+    <g fill="currentColor">
+      <path d="M30 22 q-2 -12 10 -15 q2 10 -10 15z"/>
+      <path d="M52 18 q-1 -12 12 -14 q1 10 -12 14z"/>
+      <path d="M76 15 q1 -11 13 -12 q0 10 -13 12z"/>
+      <path d="M124 15 q-1 -11 -13 -12 q0 10 13 12z"/>
+      <path d="M148 18 q1 -12 -12 -14 q-1 10 12 14z"/>
+      <path d="M170 22 q2 -12 -10 -15 q-2 10 10 15z"/>
+      <path d="M40 21 q2 10 13 9 q-3 -9 -13 -9z" opacity=".65"/>
+      <path d="M64 17 q3 10 14 8 q-4 -9 -14 -8z" opacity=".65"/>
+      <path d="M136 17 q-3 10 -14 8 q4 -9 14 -8z" opacity=".65"/>
+      <path d="M160 21 q-2 10 -13 9 q3 -9 13 -9z" opacity=".65"/>
+      <circle cx="100" cy="15" r="2.6"/>
+      <circle cx="92" cy="18" r="1.5" opacity=".7"/>
+      <circle cx="108" cy="18" r="1.5" opacity=".7"/>
+    </g>
+  </symbol>
+</svg>
+
+<!-- ================= PORTADA ================= -->
+<div id="portada">
+  <div class="marco">
+    <svg class="rama"><use href="#ramita"/></svg>
+    <p class="rotulo" style="color:var(--gold-soft); margin-top:18px">Nos casamos</p>
+    <p class="nombres">Ezequiel <span>&amp;</span> Débora</p>
+    <p class="aviso">Esta tarjeta tiene música.<br>Subí el volumen de tu celular.</p>
+    <button class="boton" id="btn-abrir" type="button">Abrir invitación</button>
+  </div>
+</div>
+
+<main class="tarjeta">
+
+  <!-- ================= ENCABEZADO ================= -->
+  <section id="inicio">
+    <p class="rotulo aparece">¡Nos casamos!</p>
+    <p class="nombres aparece">Ezequiel <span>&amp;</span> Débora</p>
+    <p class="apellidos aparece">Viviani · Maldonado</p>
+    <svg class="rama aparece"><use href="#ramita"/></svg>
+    <p class="con-hijos aparece">Junto a nuestros dos hijos,<br>te invitamos a celebrar nuestro casamiento</p>
+    <div class="aparece">
+      <p class="fecha-grande">Domingo <b>20</b> Diciembre</p>
+      <p class="rotulo" style="margin-top:14px; color:var(--ink-soft)">2026</p>
+    </div>
+  </section>
+
+  <!-- ================= TEXTO ================= -->
+  <section id="frase" class="oscura">
+    <svg class="rama aparece" style="margin-bottom:26px"><use href="#ramita"/></svg>
+    <p class="aparece">Hay amores que se eligen una vez,<br>y amores que se eligen todos los días.</p>
+    <p class="aparece">El nuestro creció entre risas y sueños compartidos, y ya nos regaló lo más lindo que tenemos: nuestros dos hijos.</p>
+    <p class="aparece">Hoy, con ellos de la mano, queremos decir <em>“sí, para toda la vida”</em>… y queremos que estés ahí.</p>
+    <p class="cancion aparece">Nuestra canción<br><em>“Sarà perché ti amo”</em> · Ricchi e Poveri</p>
+  </section>
+
+  <!-- ================= CUÁNDO Y DÓNDE ================= -->
+  <section id="cuando">
+    <p class="rotulo aparece">Cuándo y dónde</p>
+    <h2 class="aparece">El gran día</h2>
+    <div class="datos aparece">
+      <div><span class="rotulo">Fecha</span><strong>20/12/26</strong></div>
+      <div><span class="rotulo">Hora</span><strong>11:00 hs</strong></div>
+    </div>
+    <div class="aparece">
+      <span class="rotulo">Lugar</span>
+      <p class="lugar-nombre">Club Unidad Sancristobalense</p>
+      <p class="chico">Ruta 2 · San Cristóbal, Santa Fe</p>
+    </div>
+    <div class="botones aparece">
+      <a class="boton lleno" id="link-mapa" target="_blank" rel="noopener">¿Cómo llegar?</a>
+      <a class="boton" id="link-agenda" target="_blank" rel="noopener">Agendar</a>
+    </div>
+  </section>
+
+  <!-- ================= CUENTA REGRESIVA ================= -->
+  <section id="faltan" class="oscura">
+    <p class="rotulo aparece">Falta cada vez menos</p>
+    <h2 class="aparece">Quedan</h2>
+    <div class="cuenta aparece" id="cuenta">
+      <div><b id="c-dias">--</b><span>Días</span></div>
+      <div><b id="c-horas">--</b><span>Horas</span></div>
+      <div><b id="c-min">--</b><span>Min</span></div>
+      <div><b id="c-seg">--</b><span>Seg</span></div>
+    </div>
+    <p id="cuenta-fin" hidden>¡Hoy es el gran día!</p>
+  </section>
+
+  <!-- ================= ITINERARIO ================= -->
+  <section id="itinerario">
+    <p class="rotulo aparece">Paso a paso</p>
+    <h2 class="aparece">Itinerario</h2>
+    <ol class="itinerario">
+      <li class="aparece"><time>11:00</time><div><b>Ceremonia</b><small>El momento del “sí, quiero”</small></div></li>
+      <li class="aparece"><time>12:00</time><div><b>Recepción</b><small>Brindis y fotos con los novios</small></div></li>
+      <li class="aparece"><time>13:30</time><div><b>Almuerzo</b><small>A disfrutar en familia</small></div></li>
+      <li class="aparece"><time>16:00</time><div><b>Baile</b><small>¡Todos a la pista!</small></div></li>
+      <li class="aparece"><time>19:00</time><div><b>Torta y brindis</b><small>Un brindis por lo que viene</small></div></li>
+      <li class="aparece"><time>21:00</time><div><b>Fin de fiesta</b><small>Gracias por acompañarnos</small></div></li>
+    </ol>
+  </section>
+
+  <!-- ================= FOTOS ================= -->
+  <section id="fotos" class="suave">
+    <p class="rotulo aparece">Nuestra historia</p>
+    <h2 class="aparece">Nosotros</h2>
+    <div class="carrusel aparece" id="carrusel"></div>
+    <div class="flechas aparece">
+      <button type="button" id="foto-ant" aria-label="Foto anterior">‹</button>
+      <button type="button" id="foto-sig" aria-label="Foto siguiente">›</button>
+    </div>
+  </section>
+
+  <!-- ================= VESTIMENTA ================= -->
+  <section id="vestimenta">
+    <p class="rotulo aparece">Dress code</p>
+    <h2 class="aparece">Vestimenta</h2>
+    <p class="aparece" style="font-size:26px; color:var(--sage-deep)">Elegante sport</p>
+    <p class="chico aparece" style="margin-top:8px">La fiesta es de día: vení cómodo y fresco.<br>El blanco queda reservado para la novia.</p>
+  </section>
+
+  <!-- ================= REGALO ================= -->
+  <section id="regalo" class="suave">
+    <p class="rotulo aparece">Regalo</p>
+    <h2 class="aparece">Sobre virtual</h2>
+    <p class="aparece" style="max-width:360px; margin:0 auto">Que nos acompañes es nuestro mejor regalo. Pero si además querés hacernos un presente, podés hacerlo escaneando este código.</p>
+    <div class="qr aparece" id="qr" role="img" aria-label="Código QR para regalo"></div>
+    <p class="chico aparece" id="qr-nota">QR de ejemplo</p>
+    <div class="aparece">
+      <div class="alias"><span id="alias-texto"></span><button type="button" id="btn-copiar">Copiar</button></div>
+    </div>
+  </section>
+
+  <!-- ================= CONFIRMACIÓN ================= -->
+  <section id="confirmar" class="oscura">
+    <svg class="rama aparece" style="margin-bottom:22px"><use href="#ramita"/></svg>
+    <p class="rotulo aparece">Confirmá tu asistencia</p>
+    <h2 class="aparece">¡Te esperamos!</h2>
+    <p class="aparece">Por favor confirmá tu asistencia<br>antes del <strong id="fecha-limite"></strong>.</p>
+    <div class="botones aparece">
+      <a class="boton" id="link-whatsapp" target="_blank" rel="noopener">Confirmar por WhatsApp</a>
+    </div>
+    <details class="valor aparece">
+      <summary>Ver valor de la tarjeta</summary>
+      <p class="monto" id="valor-tarjeta"></p>
+      <p class="chico" style="margin-top:8px">por persona</p>
+    </details>
+  </section>
+
+  <footer>
+    <p class="nombres">Ezequiel &amp; Débora</p>
+    <p>20 · 12 · 2026</p>
+  </footer>
+</main>
+
+<button id="btn-musica" type="button" aria-label="Pausar o reproducir la música">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 9v6h4l5 4V5L8 9H4z"/>
+    <g class="ondas"><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></g>
+  </svg>
+</button>
+<audio id="musica" loop preload="none"></audio>
+
+<script>
+/* =====================================================================
+   DATOS PARA EDITAR — todo lo que cambia está acá arriba
+   ===================================================================== */
+const DATOS = {
+  // Fecha y hora de la ceremonia (hora de Argentina)
+  fecha: "2026-12-20T11:00:00-03:00",
+  fin:   "2026-12-20T21:00:00-03:00",
+
+  // Lugar: link de Google Maps del botón "¿Cómo llegar?" y texto que se guarda al agendar
+  lugarLink: "https://maps.app.goo.gl/3aKZo1774tnv45oQ8",
+  lugarMapa: "Club Unidad Sancristobalense, Ruta 2, San Cristóbal, Santa Fe",
+
+  // Archivo de la canción (ponelo en la misma carpeta que esta página). Vacío = sin música.
+  musica: "musica.mp3",
+
+  // Fotos de los novios, ej: ["fotos/1.jpg", "fotos/2.jpg"]. Vacío = se ven los espacios de muestra.
+  fotos: [],
+
+  // Regalo: imagen del QR (ej: "qr.png") y alias. Si qrImagen queda vacío se dibuja un QR de ejemplo.
+  qrImagen: "",
+  alias: "ALIAS.DE.EJEMPLO",
+
+  // Confirmación: número con código de país, sin + ni espacios (ej: "5492211234567")
+  whatsapp: "5493492270796",
+  fechaLimite: "05/12/26",
+  valorTarjeta: "$50.000"
+};
+/* ===================================================================== */
+
+document.documentElement.classList.add("js");
+const $ = (id) => document.getElementById(id);
+
+/* ---- Portada y música ---- */
+const musica = $("musica");
+const btnMusica = $("btn-musica");
+if (DATOS.musica) {
+  musica.src = DATOS.musica;
+  musica.addEventListener("error", () => btnMusica.classList.remove("visible"));
+}
+$("btn-abrir").addEventListener("click", () => {
+  $("portada").classList.add("abierta");
+  document.body.classList.remove("cerrada");
+  if (DATOS.musica) {
+    btnMusica.classList.add("visible");
+    musica.play().catch(() => btnMusica.classList.add("pausada"));
+  }
+});
+btnMusica.addEventListener("click", () => {
+  if (musica.paused) { musica.play().catch(() => {}); btnMusica.classList.remove("pausada"); }
+  else { musica.pause(); btnMusica.classList.add("pausada"); }
+});
+
+/* ---- Enlaces ---- */
+$("link-mapa").href = DATOS.lugarLink;
+
+const aUTC = (iso) => new Date(iso).toISOString().replace(/[-:]|\.\d{3}/g, "");
+$("link-agenda").href = "https://calendar.google.com/calendar/render?action=TEMPLATE"
+  + "&text=" + encodeURIComponent("Casamiento de Ezequiel y Débora")
+  + "&dates=" + aUTC(DATOS.fecha) + "/" + aUTC(DATOS.fin)
+  + "&location=" + encodeURIComponent(DATOS.lugarMapa);
+
+$("link-whatsapp").href = "https://wa.me/" + DATOS.whatsapp
+  + "?text=" + encodeURIComponent("¡Hola! Confirmo mi asistencia al casamiento de Ezequiel y Débora 💍");
+$("fecha-limite").textContent = DATOS.fechaLimite;
+$("valor-tarjeta").textContent = DATOS.valorTarjeta;
+
+/* ---- Cuenta regresiva ---- */
+const objetivo = new Date(DATOS.fecha).getTime();
+function actualizarCuenta() {
+  const falta = objetivo - Date.now();
+  if (falta <= 0) {
+    $("cuenta").hidden = true;
+    $("cuenta-fin").hidden = false;
+    clearInterval(reloj);
+    return;
+  }
+  const seg = Math.floor(falta / 1000);
+  $("c-dias").textContent = Math.floor(seg / 86400);
+  $("c-horas").textContent = String(Math.floor(seg % 86400 / 3600)).padStart(2, "0");
+  $("c-min").textContent = String(Math.floor(seg % 3600 / 60)).padStart(2, "0");
+  $("c-seg").textContent = String(seg % 60).padStart(2, "0");
+}
+const reloj = setInterval(actualizarCuenta, 1000);
+actualizarCuenta();
+
+/* ---- Fotos ---- */
+const carrusel = $("carrusel");
+const camara = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l1.5-2h7L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>';
+if (DATOS.fotos.length) {
+  carrusel.innerHTML = DATOS.fotos.map((f, i) =>
+    `<figure><img src="${f}" alt="Ezequiel y Débora, foto ${i + 1}" loading="lazy"></figure>`).join("");
+} else {
+  carrusel.innerHTML = [1, 2, 3, 4].map((n) =>
+    `<figure class="vacia">${camara}<span>Foto ${n}</span></figure>`).join("");
+}
+const pasoFoto = () => carrusel.firstElementChild.getBoundingClientRect().width + 14;
+$("foto-ant").addEventListener("click", () => carrusel.scrollBy({ left: -pasoFoto(), behavior: "smooth" }));
+$("foto-sig").addEventListener("click", () => carrusel.scrollBy({ left: pasoFoto(), behavior: "smooth" }));
+
+/* ---- Regalo: QR y alias ---- */
+function qrDeEjemplo() {
+  // Dibujo con forma de QR, solo de muestra: no lleva a ningún lado.
+  const n = 25;
+  let semilla = 20261220;
+  const azar = () => (semilla = (semilla * 1103515245 + 12345) % 2147483648) / 2147483648;
+  const esquinas = [[0, 0], [n - 7, 0], [0, n - 7]];
+  let celdas = "";
+  for (let y = 0; y < n; y++) {
+    for (let x = 0; x < n; x++) {
+      const esq = esquinas.find(([ex, ey]) => x >= ex - 1 && x <= ex + 7 && y >= ey - 1 && y <= ey + 7);
+      let llena;
+      if (esq) {
+        const dx = x - esq[0], dy = y - esq[1];
+        const borde = dx >= 0 && dx <= 6 && dy >= 0 && dy <= 6 && (dx === 0 || dx === 6 || dy === 0 || dy === 6);
+        const centro = dx >= 2 && dx <= 4 && dy >= 2 && dy <= 4;
+        llena = borde || centro;
+      } else {
+        llena = azar() > 0.52;
+      }
+      if (llena) celdas += `<rect x="${x}" y="${y}" width="1" height="1"/>`;
+    }
+  }
+  return `<svg viewBox="0 0 ${n} ${n}" shape-rendering="crispEdges" fill="#2f3a2b">${celdas}</svg>`;
+}
+if (DATOS.qrImagen) {
+  $("qr").innerHTML = `<img src="${DATOS.qrImagen}" alt="Código QR para regalo">`;
+  $("qr-nota").hidden = true;
+} else {
+  $("qr").innerHTML = qrDeEjemplo();
+}
+$("alias-texto").textContent = DATOS.alias;
+$("btn-copiar").addEventListener("click", async (e) => {
+  try {
+    await navigator.clipboard.writeText(DATOS.alias);
+    e.target.textContent = "¡Copiado!";
+  } catch {
+    e.target.textContent = "Copialo a mano";
+  }
+  setTimeout(() => (e.target.textContent = "Copiar"), 2000);
+});
+
+/* ---- Aparición suave al hacer scroll ---- */
+const observador = new IntersectionObserver((entradas) => {
+  entradas.forEach((en) => {
+    if (en.isIntersecting) { en.target.classList.add("visible"); observador.unobserve(en.target); }
+  });
+}, { threshold: 0.15 });
+document.querySelectorAll(".aparece").forEach((el) => observador.observe(el));
+</script>
+</body>
+</html>
