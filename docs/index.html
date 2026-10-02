@@ -470,13 +470,6 @@
     </div>
   </section>
 
-  <!-- ================= AHORA ================= -->
-  <section id="ahora" class="antes-ahora">
-    <p class="rotulo aparece">Casi 20 años juntos</p>
-    <figure class="polaroid derecha aparece" id="foto-ahora"></figure>
-    <h2 class="aparece">Y se siguen eligiendo</h2>
-  </section>
-
   <!-- ================= CONFIRMACIÓN ================= -->
   <section id="confirmar" class="oscura">
     <svg class="rama aparece" style="margin-bottom:22px"><use href="#ramita"/></svg>
@@ -541,14 +534,15 @@ const DATOS = {
     ] }
   ],
 
-  // Fotos de ellos de chicos (al inicio) y una actual (al final). Vacío = se ve el espacio de muestra.
+  // Fotos de ellos de chicos (al inicio). Vacío = se ve el espacio de muestra.
   // "encuadre" corre la foto dentro del marco (posición horizontal y vertical) y "zoom" la agranda.
   fotoEl:    { archivo: "fotos/eze-nene.jpeg", nombre: "Eze",  encuadre: "50% 12%", zoom: 1 },
   fotoElla:  { archivo: "",                    nombre: "Debo", encuadre: "50% 50%", zoom: 1 },
-  fotoAhora: { archivo: "fotos/foto-1.png",    nombre: "",     encuadre: "50% 50%", zoom: 1.34 },
 
-  // Fotos de los novios, ej: ["fotos/1.jpg", "fotos/2.jpg"]. Vacío = se ven los espacios de muestra.
-  fotos: [],
+  // Fotos de "Nuestra historia". Hasta que haya 4, el resto se completa con espacios de muestra.
+  fotos: [
+    { archivo: "fotos/foto-1.png", encuadre: "50% 50%", zoom: 1.34 }
+  ],
 
   // Regalo: imagen del QR (ej: "qr.png") y alias. Si qrImagen queda vacío se dibuja un QR de ejemplo.
   qrImagen: "",
@@ -624,13 +618,12 @@ $("carta").innerHTML = DATOS.menu.map((paso) =>
 /* ---- Fotos ---- */
 const carrusel = $("carrusel");
 const camara = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l1.5-2h7L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>';
-if (DATOS.fotos.length) {
-  carrusel.innerHTML = DATOS.fotos.map((f, i) =>
-    `<figure><img src="${f}" alt="Ezequiel y Débora, foto ${i + 1}" loading="lazy"></figure>`).join("");
-} else {
-  carrusel.innerHTML = [1, 2, 3, 4].map((n) =>
-    `<figure class="vacia">${camara}<span>Foto ${n}</span></figure>`).join("");
+const figuras = DATOS.fotos.map((f, i) =>
+  `<figure><img src="${f.archivo}" alt="Ezequiel y Débora, foto ${i + 1}" loading="lazy" style="object-position:${f.encuadre}; scale:${f.zoom}"></figure>`);
+for (let n = figuras.length + 1; n <= 4; n++) {
+  figuras.push(`<figure class="vacia">${camara}<span>Foto ${n}</span></figure>`);
 }
+carrusel.innerHTML = figuras.join("");
 const polaroid = (id, foto, alt, rotulo) => {
   const imagen = foto.archivo
     ? `<img src="${foto.archivo}" alt="${alt}" loading="lazy" style="object-position:${foto.encuadre}; scale:${foto.zoom}">`
@@ -639,7 +632,6 @@ const polaroid = (id, foto, alt, rotulo) => {
 };
 polaroid("foto-el", DATOS.fotoEl, "Ezequiel de chico", "Foto de él");
 polaroid("foto-ella", DATOS.fotoElla, "Débora de chica", "Foto de ella");
-polaroid("foto-ahora", DATOS.fotoAhora, "Ezequiel y Débora hoy", "Foto de ahora");
 const pasoFoto = () => carrusel.firstElementChild.getBoundingClientRect().width + 14;
 $("foto-ant").addEventListener("click", () => carrusel.scrollBy({ left: -pasoFoto(), behavior: "smooth" }));
 $("foto-sig").addEventListener("click", () => carrusel.scrollBy({ left: pasoFoto(), behavior: "smooth" }));
