@@ -185,6 +185,20 @@
   .itinerario b { font-weight: 500; font-size: 23px; color: var(--sage-deep); display: block; line-height: 1.2; }
   .itinerario small { font-size: 16px; color: var(--ink-soft); }
 
+  /* ---------- Menú ---------- */
+  .menu summary {
+    list-style: none; cursor: pointer; display: inline-block;
+    font-family: var(--sans); font-size: 13px; font-weight: 500; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--paper); border: 1px solid var(--gold-soft); border-radius: 999px; padding: 13px 26px;
+    transition: background .25s, color .25s;
+  }
+  .menu summary::-webkit-details-marker { display: none; }
+  .menu summary:hover, .menu summary:focus-visible, .menu[open] summary { background: var(--gold-soft); color: var(--sage-deep); }
+  .menu .carta { margin: 30px auto 0; max-width: 340px; border-top: 1px solid rgba(216, 195, 155, .35); }
+  .menu .paso { padding: 20px 0; border-bottom: 1px solid rgba(216, 195, 155, .35); }
+  .menu .paso p { font-size: 23px; line-height: 1.3; margin-top: 4px; }
+  .bebida { font-style: italic; font-size: 18px; color: rgba(247, 243, 234, .8); margin-top: 26px; }
+
   /* ---------- Fotos ---------- */
   #fotos { padding-left: 0; padding-right: 0; }
   .carrusel {
@@ -380,6 +394,17 @@
     </ol>
   </section>
 
+  <!-- ================= MENÚ ================= -->
+  <section id="menu" class="oscura">
+    <p class="rotulo aparece">Para compartir la mesa</p>
+    <h2 class="aparece">Menú</h2>
+    <details class="menu aparece">
+      <summary>Ver menú</summary>
+      <div class="carta" id="carta"></div>
+    </details>
+    <p class="bebida aparece">La bebida no está incluida en la tarjeta:<br>se abona aparte.</p>
+  </section>
+
   <!-- ================= FOTOS ================= -->
   <section id="fotos" class="suave">
     <p class="rotulo aparece">Nuestra historia</p>
@@ -424,6 +449,7 @@
       <summary>Ver valor de la tarjeta</summary>
       <p class="monto" id="valor-tarjeta"></p>
       <p class="chico" style="margin-top:8px">por persona</p>
+      <p class="chico" style="margin-top:6px; font-style:italic">No incluye bebida, que se abona aparte.</p>
     </details>
   </section>
 
@@ -456,6 +482,13 @@ const DATOS = {
 
   // Archivo de la canción (ponelo en la misma carpeta que esta página). Vacío = sin música.
   musica: "musica.mp3",
+
+  // Menú: cada paso con su título y los platos (uno por renglón)
+  menu: [
+    { titulo: "Recepción", platos: ["A confirmar"] },
+    { titulo: "Plato principal", platos: ["A confirmar"] },
+    { titulo: "Postre", platos: ["A confirmar"] }
+  ],
 
   // Fotos de los novios, ej: ["fotos/1.jpg", "fotos/2.jpg"]. Vacío = se ven los espacios de muestra.
   fotos: [],
@@ -526,6 +559,10 @@ function actualizarCuenta() {
 }
 const reloj = setInterval(actualizarCuenta, 1000);
 actualizarCuenta();
+
+/* ---- Menú ---- */
+$("carta").innerHTML = DATOS.menu.map((paso) =>
+  `<div class="paso"><span class="rotulo">${paso.titulo}</span>${paso.platos.map((pl) => `<p>${pl}</p>`).join("")}</div>`).join("");
 
 /* ---- Fotos ---- */
 const carrusel = $("carrusel");
